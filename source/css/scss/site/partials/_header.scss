@@ -1,0 +1,26 @@
+.site-header {
+    nav {
+        padding: 20px;
+    }
+
+    .logo {
+        margin: 0 auto;
+        padding-left: 20px;
+        padding-right: 20px;
+        text-align: center;
+
+        h3 {
+            margin: 15px 0;
+            font-size: 1.35em;
+            font-weight: 700;
+            line-height: 1.25;
+            color: $white;
+            text-shadow: 1px 1px 0 rgba(33, 33, 33, 0.5);
+        }
+    }
+
+    .logo-broco {
+        max-width: 377px;
+        width: 100%;
+    }
+}

@@ -1,0 +1,196 @@
+// Typography
+// Super basic typography styles
+// =================================================================================
+// HEADING
+// ---------------------
+h1 {
+	font-size: 36px;
+	line-height: 1.3em;
+}
+h2 {
+	font-size: 24px;
+	line-height: 1.3em;
+}
+h3 {
+	font-size: 18px;
+	line-height: 1.5em;
+}
+h4 {
+	font-size: 16px;
+	line-height: 1.5em;
+}
+h5 {
+	font-size: 14px;
+	line-height: 1.5em;
+}
+h6 {
+	font-size: 14px;
+	line-height: 1.5em;
+}
+
+// TEXT ELEMENT
+// ---------------------
+p {
+	margin: 0 0 rhythm(); // output 1.5em;
+}
+em {
+	font-style: italic;
+}
+b,
+strong {
+	font-weight: bold;
+}
+small {
+	font-size: 85%;
+}
+cite {
+	font-style: normal;
+}
+dfn {
+	font-style: italic;
+	font-weight: bold;
+}
+sub,
+sup {
+	font-size: 75%;
+	line-height: 0;
+	position: relative;
+}
+sup {
+	top: -0.5em;
+	vertical-align: sub;
+}
+sub {
+	bottom: -0.25em;
+	vertical-align: super;
+}
+abbr,
+acronym {
+	font-size: 90%;
+	text-transform: uppercase;
+	border-bottom: 1px dotted $grayLight;
+	cursor: help;
+}
+del {
+	color: $grayDark;
+	text-decoration: line-through;
+	vertical-align: baseline;
+}
+pre {
+	background: $grayLighter;
+	border-bottom: 1px solid $grayDarker;
+	border-top: 1px solid $grayDarker;
+	margin: 1.5em 0;
+	padding: rhythm(0.5) rhythm(0.3);
+}
+code {
+	background: $grayLighter;
+	font-size: 11px;
+	line-height: 1.2em;
+	padding: rhythm(0.2);
+}
+pre,
+code,
+kbd,
+samp,
+tt {
+	font-family: $consolas;
+}
+ins {
+	text-decoration: underline;
+}
+mark {
+	background: $grayDarker;
+	font-size: 11px;
+}
+address {
+	display: block;
+	margin: 0 0 1.5em;
+	font-style: italic;
+}
+
+//  LISTS
+// ---------------------
+ul,
+ol {
+	margin: 1em 0;
+	padding: 0 0 0 rhythm(1.5);
+}
+ul {
+	list-style: disc;
+}
+ol {
+	list-style-type: decimal;
+}
+ol > ol {
+	list-style: upper-alpha;
+}
+ol > ol > ol {
+	list-style: lower-roman;
+}
+li ul,
+li ol {
+	margin: 0;
+}
+dl {
+	margin: 0 1.625em;
+}
+dt {
+	font-weight: bold;
+}
+dd {
+	margin-bottom: 1.625em;
+}
+
+// PRECISE CONTROL OVER RESPONSIVE TYPOGRAPHY FOR SASS
+// ---------------------------------------------------------------------------
+// Indrek Paas @indrekpaas
+// Inspired by Mike Riethmuller's Precise control over responsive typography
+// http://madebymike.com.au/writing/precise-control-responsive-typography/
+// `strip-unit()` function by Hugo Giraudel
+// 02.10.2015 Add support for multiple properties
+// ---------------------------------------------------------------------------
+@mixin fluid-type($properties, $min-vw, $max-vw, $min-value, $max-value) {
+	& {
+		@each $property in $properties {
+			#{$property}: $min-value;
+		}
+		@media screen and (min-width: $min-vw) {
+			@each $property in $properties {
+				#{$property}: calc(#{$min-value} + #{strip-unit($max-value - $min-value)} * ((100vw - #{$min-vw}) / #{strip-unit($max-vw - $min-vw)}));
+			}
+		}
+		@media screen and (min-width: $max-vw) {
+			@each $property in $properties {
+				#{$property}: $max-value;
+			}
+		}
+	}
+}
+
+// USAGE:
+// // Single property
+// html {
+//     @include fluid-type(font-size, 320px, 1366px, 14px, 18px);
+// }
+// // Multiple properties with same values
+// h1 {
+//     @include fluid-type(font-size margin-bottom, 320px, 1366px, 14px, 18px);
+// }
+// // Multiple properties with different values
+// div {
+//     @include fluid-type(padding, 320px, 1366px, 14px, 18px);
+//     @include fluid-type(width, 20em, 100em, 8em, 16em);
+// }
+%ms-select {
+	@media screen and (-ms-high-contrast: active),
+	(-ms-high-contrast: none) {
+		select::-ms-expand {
+			display: none;
+		}
+		select:focus::-ms-value {
+			background: transparent;
+			color: #222;
+		}
+	}
+}

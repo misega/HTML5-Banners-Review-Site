@@ -1,0 +1,21 @@
+// Helper Mixins
+// =================================================================================
+
+// Mixin to style placeholders in HTML5 form elements
+//	-------------------------
+//
+// input {
+// @include placeholder {
+// /* styles for placeholder here */
+// }
+// }
+//
+
+@mixin placeholder {
+    // scss-lint:disable VendorPrefix
+    &.placeholder { @content }
+    &:-moz-placeholder { @content }
+    &::-moz-placeholder { @content }
+    &:-ms-input-placeholder { @content }
+    &::-webkit-input-placeholder { @content }
+}

@@ -1,0 +1,78 @@
+// Helper Mixins
+// ====================================================================================================
+// Mixin for box-sizing (box model)
+// Acceptable values are border, content, and padding - content is the default W3C model
+// ---------------------------------------------------------------------------
+@mixin box-sizing($type: 'border') {
+    //scss-lint:disable Indentation, VendorPrefix
+    $display: if($type == 'inherit', 'inherit', #{$type}-box);
+
+    -webkit-box-sizing: #{$display};
+       -moz-box-sizing: #{$display};
+            box-sizing: #{$display};
+}
+
+@mixin rotate($degrees) {
+    //scss-lint:disable VendorPrefix
+    transform: rotate($degrees);
+    $filter: progid:DXImageTransform.Microsoft.Matrix(sizingMethod='auto expand', M11=#{cos($degrees)}, M12=#{-1*sin($degrees)}, M21=#{sin($degrees)}, M22=#{cos($degrees)});
+    -ms-filter: "#{$filter}";
+    filter: $filter;
+}
+
+// Border Radius
+// Modifed version from http://compass-style.org/reference/compass/css3/border_radius/
+// -o- and -ms- vendor prefix not exist for border radius
+// ---------------------------------------------------------------------------
+$default-rad: 5px !default;
+
+@mixin border-radius($rad: $default-rad) {
+    border-radius: $rad;
+    background-clip: padding-box;
+}
+
+// Percentage
+// ---------------------------------------------------------------------------
+@function calc-percent($target, $container) {
+    @return ($target / $container) * 100%;
+}
+
+// Calculate fluid ratio based on two dimensions (width/height)
+// ---------------------------------------------------------------------------
+@mixin fluid-ratio($large-size, $small-size) {
+    //scss-lint:disable VendorPrefix
+    $width-large: nth($large-size, 1);
+    $width-small: nth($small-size, 1);
+    $height-large: nth($large-size, 2);
+    $height-small: nth($small-size, 2);
+    $slope: ($height-large - $height-small) / ($width-large - $width-small);
+    $height: $height-small - $width-small * $slope;
+
+    padding-top: $slope * 100%;
+    height: $height;
+
+    background-size: cover;
+    -moz-background-size: cover;
+}
+
+// MediaQueries mixins
+// ---------------------------------------------------------------------------
+@mixin mq-at-least($device-width) {
+    @media screen and (min-width: $device-width) {
+        @content;
+    }
+}
+
+@mixin mq-until($device-width) {
+    @media screen and (max-width: $device-width - 1) {
+        @content;
+    }
+}
+// @include mq("all and (min-width:33em)") {
+//  ...
+// }
+@mixin mq($query: nil) {
+    @media #{$query} {
+        @content;
+    }
+}

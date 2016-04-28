@@ -1,0 +1,120 @@
+// Helper Mixins
+// =================================================================================
+//scss-lint:disable VendorPrefix
+
+// Mixin for selection markup
+// ------------------
+@mixin selection($background, $color, $element: false) {
+    @if($element) {
+        &::-moz-selection, &::selection { background: $background; color: $color; text-shadow: none; }
+    }
+    @else {
+        ::-moz-selection, ::selection { background: $background; color: $color; text-shadow: none; }
+    }
+}
+
+// PX to EM coversion
+// ---------------------------------------------------------------------------
+@function pem($px, $base: 16) {
+    @if (unitless($px)) {
+        $px: $px * 1px;
+    }
+    @if (unitless($base)) {
+        $base: $base * 1px;
+    }
+
+    @return $px / $base * 1em;
+}
+
+// Font REM conversion
+// ---------------------------------------------------------------------------
+@function parseInt($n) {
+    @return $n / ($n * 0 + 1);
+}
+
+@mixin rem($property, $values) {
+    $px: ();
+    $rem: ();
+
+    @each $value in $values {
+
+        @if $value == 0 or $value == auto {
+            $px: append($px, $value);
+            $rem: append($rem, $value);
+        }
+        @else {
+            $unit: unit($value);
+            $val: parseInt($value);
+
+            @if $unit == 'px' {
+                $px: append($px, $value);
+                $rem: append($rem, ($val / 10 * 1rem));
+            }
+
+            @if $unit == 'rem' {
+                $px: append($px, ($val * 10 * 1px));
+                $rem: append($rem, $value);
+            }
+        }
+    }
+
+    #{$property}: $px;
+    #{$property}: $rem;
+}
+
+// USAGE:
+// body {
+//   @include rem(font-size, 1.6rem);
+// }
+
+@mixin font-size($size) {
+    @include rem(font-size, $size);
+}
+
+// PRECISE CONTROL OVER RESPONSIVE TYPOGRAPHY FOR SASS
+// ---------------------------------------------------------------------------
+// Indrek Paas @indrekpaas
+
+// Inspired by Mike Riethmuller's Precise control over responsive typography
+// http://madebymike.com.au/writing/precise-control-responsive-typography/
+
+// `strip-unit()` function by Hugo Giraudel
+
+// 02.10.2015 Add support for multiple properties
+// ---------------------------------------------------------------------------
+@mixin fluid-type($properties, $min-vw, $max-vw, $min-value, $max-value) {
+    & {
+        @each $property in $properties {
+            #{$property}: $min-value;
+        }
+
+        @media screen and (min-width: $min-vw) {
+            @each $property in $properties {
+                #{$property}: calc(#{$min-value} + #{strip-unit($max-value - $min-value)} * ((100vw - #{$min-vw}) / #{strip-unit($max-vw - $min-vw)}));
+            }
+        }
+
+        @media screen and (min-width: $max-vw) {
+            @each $property in $properties {
+                #{$property}: $max-value;
+            }
+        }
+    }
+}
+
+// USAGE:
+// // Single property
+// html {
+//     @include fluid-type(font-size, 320px, 1366px, 14px, 18px);
+// }
+
+// // Multiple properties with same values
+// h1 {
+//     @include fluid-type(font-size margin-bottom, 320px, 1366px, 14px, 18px);
+// }
+
+// // Multiple properties with different values
+// div {
+//     @include fluid-type(padding, 320px, 1366px, 14px, 18px);
+//     @include fluid-type(width, 20em, 100em, 8em, 16em);
+// }

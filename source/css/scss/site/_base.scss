@@ -1,0 +1,121 @@
+// Base styles
+// Setup your baseline, selection and links
+// ====================================================================================================
+
+// Site Variables
+// ---------------------------------------------------------------------------
+$backgroundColor: $white;
+$base-font-size: 12px;
+
+$headerColor: #808080;
+$fontColor: $blackLighter;
+$linkColor: $black;
+
+// Fonts
+// ---------------------------------------------------------------------------
+
+
+// Apply a natural box layout model to all elements
+// ---------------------------------------------------
+html {
+    @include box-sizing;
+}
+
+*, *:after, *:before {
+    @include box-sizing(inherit);
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    height: 100%;
+    color: $fontColor;
+    font-size: 1em;
+    line-height: 1.4;
+    overflow-x: hidden;
+    background: #444;
+    font-family: 'Open Sans Condensed', sans-serif;
+
+    @include fluid-type(font-size, 320px, 1366px, 14px, 18px);
+}
+
+.container {
+    position: relative;
+    z-index: 10;
+    min-height: 100%;
+    outline: 1px solid rgba(0, 0, 0, 0);
+    transform: translateZ(0) translateX(0) rotateY(0deg);
+    background: #7f8083 url('../img/bkgd.png') repeat top center;
+}
+
+.content-container {
+    margin: 0 auto;
+    padding: 20px 20px 100px;
+    max-width: 1040px;
+    text-align: center;
+
+    @include media('<768px') {
+        padding-left: 0;
+        padding-right: 0;
+    }
+}
+
+// Reset Cursors
+// ---------------------------------------------------
+body {
+    cursor: default;
+}
+
+html.touch body {
+    // scss-lint:disable VendorPrefix
+    -webkit-touch-callout: none;
+    -webkit-text-size-adjust: none;
+    -webkit-user-select: none;
+    -webkit-highlight: none;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+a, button, input[type='submit'] {
+    cursor: pointer;
+}
+
+// Placeholder
+// ---------------------------------------------------------------------------
+input, textarea {
+    @include placeholder {
+        color: lighten($fontColor, 20%);
+    }
+}
+
+// Responsive Images
+// ---------------------------------------------------------------------------
+img {
+    border: 0;
+    max-width: 100%;
+    height: auto;
+    -ms-interpolation-mode: bicubic;
+    vertical-align: middle;
+}
+
+// Text Selection
+// ---------------------------------------------------------------------------
+@include selection($linkColor, $white);
+
+// Links
+// ---------------------------------------------------------------------------
+a {
+    color: $linkColor;
+    text-decoration: none;
+
+    &:hover {
+        color: darken($linkColor, 30%);
+    }
+}
+
+.hide {
+    display: none;
+}
+

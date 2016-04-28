@@ -1,0 +1,22 @@
+// Convert Photoshop tracking to em
+// ---------------------------------------------------------------------------
+@function tracking($target) {
+    // 1 unit = 1/1000 em
+    @if $target < 0 {
+        @return ($target * -1 / 1000) * -1em;
+    }
+    @else if $target == 0 {
+        @return $target;
+    }
+    @else {
+        @return ($target / 1000) * 1em;
+    }
+}
+
+// USAGE:
+// letter-spacing: tracking(100);
+
+
+@function strip-unit($value) {
+    @return $value / ($value * 0 + 1);
+}
