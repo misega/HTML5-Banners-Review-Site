@@ -764,6 +764,8 @@ a:hover {
 }
 
 .tabs .tab {
+  display: inline-block;
+  margin: 0 2px;
   cursor: pointer;
 }
 

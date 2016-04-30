@@ -135,6 +135,8 @@
     border-bottom: 5px solid $grayDark;
 
     .tab {
+        display: inline-block;
+        margin: 0 2px;
         cursor: pointer;
 
         span:hover {
