@@ -76,7 +76,7 @@
         var evt = (e.originalEvent)? 'real' : 'simulated';
         if (evt === 'real') {
             var idx = $(e.currentTarget).index();
-            $tabs.eq(idx).trigger('click');
+            $tabs.eq(idx).find('input:radio').trigger('click');
         }
     });
 
@@ -99,20 +99,22 @@
 
     /* Trigger first tab
     --------------------------------------------------------------------------- */
-    $tabs.find('input:radio').on('click', function() {
-        var _tab = this;
+    $tabs.find('input:radio').on('click', function(e) {
+        var _tab = $(this).parent();
         _tab.idx = $(this).parent().index();
-        //banner.resize.call(_tab);
+        app.banner.resize.call(_tab);
         $mobileNavigation.find('a').eq(_tab.idx).trigger('click');
-    }).first().trigger('click');
+    });
 
     var $banner = $('.banner');
     var $bannerContent = $banner.find('iframe.banner-content');
     var $btnZoom = $('.js-btn-zoom');
+
     app.$win.on('resize', function() {
         var hasOverflow = $banner.get(0).scrollWidth > $banner.width();
         $btnZoom[(hasOverflow)? 'addClass' : 'removeClass']('active');
     }).trigger('resize');
+
     $btnZoom.on('click', function() {
         window.open($bannerContent.attr('src'), '_blank');
     });

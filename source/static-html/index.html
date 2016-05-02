@@ -13,19 +13,22 @@
         <main class="main-container" role="main">
             <div class="content-container">
                 <div class="tabs">
-                    <label class="tab"><input type="radio" name="tab"><span>300x250</span></label>
-                    <label class="tab"><input type="radio" name="tab"><span>300x600</span></label>
-                    <label class="tab"><input type="radio" name="tab"><span>728x90</span></label>
-                    <label class="tab"><input type="radio" name="tab"><span>970x90</span></label>
-                    <label class="tab"><input type="radio" name="tab"><span>300x250</span></label>
-                    <label class="tab"><input type="radio" name="tab"><span>728x90</span></label>
-                    <label class="single-tab show-menu"><span>728x90</span><em class="hamburger"><i></i></em></label>
+                    <label class="tab" data-type="iframe" data-filesize="35926" data-modified="2016-04-15T19:00"><input type="radio" name="tab" checked><span>160x600</span></label>
+                    <label class="tab" data-type="iframe" data-filesize="50926" data-modified="2016-05-01T23:00"><input type="radio" name="tab"><span>300x50</span></label>
+                    <label class="tab" data-type="iframe" data-filesize="100926" data-modified="2016-04-30T19:00"><input type="radio" name="tab"><span>300x250</span></label>
+                    <label class="tab" data-type="iframe" data-filesize="125926" data-modified="2016-04-15T20:21"><input type="radio" name="tab"><span>320x50</span></label>
+                    <label class="tab" data-type="iframe" data-filesize="150926" data-modified="2016-05-01T23:21"><input type="radio" name="tab"><span>728x90</span></label>
+                    <label class="single-tab show-menu"><span>160x600</span><em class="hamburger"><i></i></em></label>
                 </div>
-                <div class="banner-container" style="height:520px;">
+                <div class="banner-container">
                     <div class="banner">
-                        <iframe class="banner-content" src="about:blank" width="960" height="480" frameborder="0" scrolling="no"></iframe>
+                        <div class="ad-container" style="width:160px;height:600px;">
+                            <iframe class="banner-content" src="assets/banners/160x600/" width="160" height="600" frameborder="0" scrolling="no"></iframe>
+                        </div>
                     </div>
                     <button class="overflow js-btn-zoom"></button>
+                    <div class="file-meta"><span>&nbsp;</span></div>
+                    <button class="btn-reload-banner">Replay Banner</button>
                 </div>
             </div>
         </main>
@@ -35,3 +38,5 @@
 <!-- @include template/_scripts.html -->
 </body>
 </html>
+
+<!-- <iframe class="banner-content" src="assets/banners/160x600/" width="160" height="600" frameborder="0" scrolling="no"></iframe> -->

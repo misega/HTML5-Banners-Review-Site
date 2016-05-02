@@ -173,6 +173,83 @@
     var script = $('script').last().get(0);
     app.path = script.src.substr(0, script.src.lastIndexOf('/') - 2); // -2: remove 'js' from path
 
+    String.prototype.supplant = function(o) {
+        return this.replace(/{([^{}]*)}/g,
+            function(a, b) {
+                var r = o[b];
+                return typeof r === 'string' || typeof r === 'number' ? r : a;
+            }
+        );
+    };
+
+    String.prototype.getExtension = function() {
+        return this.split('.').pop();
+    };
+
+    Number.prototype.pad = function(place) {
+        var n = place || 2;
+        return ('0000000000' + this).slice(n * -1);
+    };
+
+    Date.prototype.formatted = function() {
+        var date = new Date(this);
+        return (date.getMonth() + 1).pad() + '/' + date.getDate().pad() + '/' + date.getFullYear() + ' @ ' + date.formatTime();
+    };
+
+    Date.prototype.formatTime = function() {
+        var date = new Date(this);
+        var hours = date.getHours();
+        var minutes = date.getMinutes();
+        var ampm = hours >= 12 ? 'pm' : 'am';
+        hours = hours % 12;
+        hours = hours ? hours : 12; // the hour '0' should be '12'
+        return hours + ':' + minutes.pad() + ' ' + ampm;
+    };
+
+    Date.prototype.toRelativeTime = function(threshold) {
+        var delta = new Date() - this,
+            now_threshold = parseInt(threshold, 10),
+            units = null,
+            conversions = {
+                millisecond: 1,     // ms    -> ms
+                second:     1000,   // ms    -> sec
+                minute:     60,     // sec   -> min
+                hour:       60,     // min   -> hour
+                day:        24,     // hour  -> day
+                week:       7,      // day   -> week
+                month:      4,      // week  -> month (roughly)
+                year:       12      // month -> year
+            };
+
+        if (isNaN(now_threshold)) {
+            now_threshold = 0;
+        }
+
+        if (delta <= now_threshold) {
+            return 'Just now';
+        }
+
+        for (var key in conversions) {
+            if (delta < conversions[key]) {
+                break;
+            }
+            else {
+                units = key; // keeps track of the selected key over the iteration
+                delta = delta / conversions[key];
+            }
+        }
+
+        // pluralize a unit when the difference is greater than 1.
+        delta = Math.floor(delta);
+        if (delta !== 1) { units += 's'; }
+        return [delta, units, 'ago'].join(' ');
+    };
+
+    app.readable_byte = function(b) {
+        var e = Math.log(b) / (10 * Math.LN2) | 0;
+        return (Math.round(b / Math.pow(1024, e) * 100) / 100) + ['B', 'KB', 'MB', 'GB', 'TB', 'PB'][e];
+    };
+
 })(window.app = window.app || {}, jQuery, window, document);
 
 // ====================================================================================================
@@ -760,6 +837,131 @@ jQuery.extend(jQuery.easing,
 }());
 
 // ====================================================================================================
+// FILE: /source/js/modules/module--banner.js
+// ====================================================================================================
+
+/*global files, swfobject, readable_byte */
+(function(app, $, window, document, undefined) {
+    'use strict';
+
+    /* Cache DOM Elements
+    ==================================================================================================== */
+    var assetsBanners = 'assets/banners/';
+    var $ad_container = $('.ad-container');
+    var $file_meta = $('.file-meta span');
+    var sizeRegExp = new RegExp('(\\d{2,}x\\d{2,})', 'g');
+    var currentBanner;
+
+    /* Banner
+    ==================================================================================================== */
+    app.banner = (function() {
+        var index = null;
+        var meta_tpl = '<small><em>FILESIZE:</em></small> <strong>{size}</strong> | <small><em>MODIFIED:</em></small> <strong><abbr data-tooltip="{date-formatted}">{date}</abbr></strong>';
+
+        /* Helper Functions
+        --------------------------------------------------------------------------- */
+        var isBannerDimensionsEqual = function() {
+            return !!(Number($ad_container.width()) === Number(currentBanner.width) && Number($ad_container.height()) === Number(currentBanner.height));
+        };
+
+        var cacheBuster = function(img) {
+            return '?cache=' + Date.now();
+        };
+
+        /* Internal Functions
+        --------------------------------------------------------------------------- */
+        function resizeBanner() {
+            var _tab = this;
+            var idx = _tab.idx;
+            var dimensions = _tab.text().match(sizeRegExp)[0].split('x');
+            currentBanner = {
+                file: assetsBanners + _tab.text(),
+                type: _tab.data('type'),
+                width: dimensions[0],
+                height: dimensions[1],
+                filesize: _tab.data('filesize'),
+                modified: _tab.data('modified')
+            };
+            // remove existing banner
+            $ad_container.children().fadeOut('fast', function() {
+                $file_meta.fadeOut(350);
+
+                // if banners are same size, change to new banner
+                if (isBannerDimensionsEqual()) {
+                    changeBanner();
+                }
+                // trigger banner container resize; change banner
+                else {
+                    $ad_container.css({'width': currentBanner.width, 'height': currentBanner.height}).onCSSTransitionEnd(changeBanner);
+                }
+            });
+        }
+
+        function changeBanner() {
+            switch (currentBanner.type) {
+                case 'iframe': displayIframeBanner(); break;
+                default: displayImageBanner(); break;
+            }
+            displayFileMeta();
+            app.$win.trigger('resize');
+        }
+
+        function displayIframeBanner() {
+            $ad_container.find('iframe').attr({
+                'src': currentBanner.file + cacheBuster(currentBanner.file),
+                'width': currentBanner.width,
+                'height': currentBanner.height
+            }).delay(250).fadeIn(350);
+        }
+
+        function displayImageBanner() {
+            // $ad_container.html($('<img>', {
+            //     'src': currentBanner.file + cacheBuster(currentBanner.file),
+            //     'width': currentBanner.width,
+            //     'height': currentBanner.height
+            // }).hide().fadeIn(350));
+        }
+
+        function displayFileMeta() {
+            $file_meta.html(meta_tpl.supplant({
+                'size': app.readable_byte(currentBanner.filesize),
+                'date': new Date(currentBanner.modified).toRelativeTime(),
+                'date-formatted': new Date(currentBanner.modified).formatted()
+            })).hide().fadeIn(350);
+        }
+
+        /* Public Functions
+        --------------------------------------------------------------------------- */
+        return {
+            resize: resizeBanner,
+            change: changeBanner
+        };
+    })();
+
+    /* Ad Blocker - Show warning message is blocker is active
+    ==================================================================================================== */
+    // setTimeout(function() {
+    //     var $adbanner = $('.ad-banner');
+    //     if ($adbanner.length && !$adbanner.is(':visible')) {
+    //         var $div = $('<div>').attr('class', 'warning-banner').html('<h1>Ad block is installed and active.<small>Disable Ad blocking to review these banners.</small></h1>').hide();
+    //         $('body').addClass('ad-blocker-active').append($div.fadeIn('slow'));
+    //     }
+    // }, 500);
+
+    /* Event Triggers
+    ==================================================================================================== */
+    $('.btn-reload-banner').on('click', function() {
+        $ad_container.find('iframe')[0].contentWindow.location.reload(true);
+    });
+
+    $(window).on('load', function() {
+        var iframeSize = $('.tabs').find(':radio:checked');
+        $(iframeSize).trigger('click');
+    });
+
+})(window.app = window.app || {}, $, window, document);
+
+// ====================================================================================================
 // FILE: /source/js/modules/page--index.js
 // ====================================================================================================
 
@@ -841,7 +1043,7 @@ jQuery.extend(jQuery.easing,
         var evt = (e.originalEvent)? 'real' : 'simulated';
         if (evt === 'real') {
             var idx = $(e.currentTarget).index();
-            $tabs.eq(idx).trigger('click');
+            $tabs.eq(idx).find('input:radio').trigger('click');
         }
     });
 
@@ -864,20 +1066,22 @@ jQuery.extend(jQuery.easing,
 
     /* Trigger first tab
     --------------------------------------------------------------------------- */
-    $tabs.find('input:radio').on('click', function() {
-        var _tab = this;
+    $tabs.find('input:radio').on('click', function(e) {
+        var _tab = $(this).parent();
         _tab.idx = $(this).parent().index();
-        //banner.resize.call(_tab);
+        app.banner.resize.call(_tab);
         $mobileNavigation.find('a').eq(_tab.idx).trigger('click');
-    }).first().trigger('click');
+    });
 
     var $banner = $('.banner');
     var $bannerContent = $banner.find('iframe.banner-content');
     var $btnZoom = $('.js-btn-zoom');
+
     app.$win.on('resize', function() {
         var hasOverflow = $banner.get(0).scrollWidth > $banner.width();
         $btnZoom[(hasOverflow)? 'addClass' : 'removeClass']('active');
     }).trigger('resize');
+
     $btnZoom.on('click', function() {
         window.open($bannerContent.attr('src'), '_blank');
     });
