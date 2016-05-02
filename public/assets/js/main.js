@@ -846,7 +846,7 @@ jQuery.extend(jQuery.easing,
 
     /* Cache DOM Elements
     ==================================================================================================== */
-    var assetsBanners = 'assets/banners/';
+    var assetsBanners = 'banners/';
     var $ad_container = $('.ad-container');
     var $file_meta = $('.file-meta span');
     var sizeRegExp = new RegExp('(\\d{2,}x\\d{2,})', 'g');

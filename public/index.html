@@ -43,7 +43,7 @@
                 </div>
             </nav>
         </header>
-
+        
         <main class="main-container" role="main">
             <div class="content-container">
                 <div class="tabs">
@@ -70,7 +70,8 @@
 </div>
 <div class="nav-container"><nav class="navigation"></nav></div>
 <script id="tab-item" type="text/template">
-    <label class="tab"><input type="radio" name="tab"><span>{{size}}</span></label>
+    <label class="tab" data-type="{{type}}" data-filesize="{{filesize}}" data-modified="{{modified}}"><input type="radio" name="tab"><span>{{size}}</span></label>
+
 </script>
 <script id="tab-single-item" type="text/template">
     <label class="single-tab show-menu"><span>{{size}}</span><em class="hamburger"><i></i></em></label>
