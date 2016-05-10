@@ -66,7 +66,7 @@
 
         function displayIframeBanner() {
             $ad_container.find('iframe').attr({
-                'src': currentBanner.file + cacheBuster(currentBanner.file),
+                'src': currentBanner.file + '/index.html' + cacheBuster(currentBanner.file),
                 'width': currentBanner.width,
                 'height': currentBanner.height
             }).delay(250).fadeIn(350);
