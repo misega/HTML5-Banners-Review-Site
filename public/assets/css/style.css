@@ -875,7 +875,9 @@ a:hover {
   background: #ccc;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
+  background-clip: padding-box;
   box-shadow: inset 0 10px 10px -10px rgba(0, 0, 0, 0.35);
+  overflow: hidden;
 }
 
 .banner-container:before, .banner-container:after {
@@ -897,6 +899,10 @@ a:hover {
   right: 10px;
   -webkit-transform: rotate(3deg);
           transform: rotate(3deg);
+}
+
+.in-review .banner-container {
+  padding-bottom: 50px;
 }
 
 .banner {

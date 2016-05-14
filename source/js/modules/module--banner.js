@@ -10,6 +10,8 @@
     var sizeRegExp = new RegExp('(\\d{2,}x\\d{2,})', 'g');
     var currentBanner;
 
+    app.$html.addClass('in-review');
+
     /* Banner
     ==================================================================================================== */
     app.banner = (function() {
@@ -96,16 +98,6 @@
         };
     })();
 
-    /* Ad Blocker - Show warning message is blocker is active
-    ==================================================================================================== */
-    // setTimeout(function() {
-    //     var $adbanner = $('.ad-banner');
-    //     if ($adbanner.length && !$adbanner.is(':visible')) {
-    //         var $div = $('<div>').attr('class', 'warning-banner').html('<h1>Ad block is installed and active.<small>Disable Ad blocking to review these banners.</small></h1>').hide();
-    //         $('body').addClass('ad-blocker-active').append($div.fadeIn('slow'));
-    //     }
-    // }, 500);
-
     /* Event Triggers
     ==================================================================================================== */
     $('.btn-reload-banner').on('click', function() {
@@ -115,6 +107,11 @@
     $(window).on('load', function() {
         var iframeSize = $('.tabs').find(':radio:checked');
         $(iframeSize).trigger('click');
+
+        if (window.location.hash.slice(1) === 'controls') {
+            $('.btn-reload-banner').hide();
+            $.getScript('assets/_banner-support-files/controls/_banners.js');
+        }
     });
 
 })(window.app = window.app || {}, $, window, document);
