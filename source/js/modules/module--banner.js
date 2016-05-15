@@ -10,8 +10,6 @@
     var sizeRegExp = new RegExp('(\\d{2,}x\\d{2,})', 'g');
     var currentBanner;
 
-    app.$html.addClass('in-review');
-
     /* Banner
     ==================================================================================================== */
     app.banner = (function() {
