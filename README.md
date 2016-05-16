@@ -1,15 +1,12 @@
-## HTML5 Banner Review Site
+# HTML5 Banner Review Site
 
-**roadmap:**
+-----
 
-- tabs; activate specific tab by hash
-- iframe animation between ads
-- ad block detection
-- HTML5 banner control bar: scrub, play, rewind
-- download zipped up ad bundle
-- detect fallback image is ready and available
-- download all zip files; useful for AEs
+Project template for reviewing HTML5 animated banners.
 
+See: [HTML5-Banners repository](https://github.com/misega/HTML5-Banners)
 
-
-
+* Show unlimited banners. Expandable menu appears, if tabs are wider than viewport.
+* Banner can be viewed in new window, if wider than viewport.
+* Target specific tab with `?tab={index}` added to url
+* Show banner controls with `#controls` added to url

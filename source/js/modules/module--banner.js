@@ -103,7 +103,12 @@
     });
 
     $(window).on('load', function() {
-        var iframeSize = $('.tabs').find(':radio:checked');
+        var $tabs = $('.tabs');
+        var paramTab = parseInt(app.param('tab'), 10) - 1; // adjust for zero-based index
+        var activeTab = Math.max(0, Math.min(paramTab, $tabs.children('.tab').length - 1)); // clamp between values
+        $tabs.find(':radio').prop('checked', false).eq(activeTab).prop('checked', true);
+
+        var iframeSize = $tabs.find(':radio:checked');
         $(iframeSize).trigger('click');
 
         if (window.location.hash.slice(1) === 'controls') {

@@ -98,4 +98,9 @@
         return (Math.round(b / Math.pow(1024, e) * 100) / 100) + ['B', 'KB', 'MB', 'GB', 'TB', 'PB'][e];
     };
 
+    app.param = function(name) {
+        var param = new RegExp('[\\?&]' + name + '=([^&#]*)').exec(window.location.href);
+        return (param) ? param[1] : null;
+    };
+
 })(window.app = window.app || {}, jQuery, window, document);
