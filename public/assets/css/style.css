@@ -872,11 +872,10 @@ a:hover {
   max-width: 1064px;
   font-family: 'Open Sans Condensed', sans-serif;
   border-top: 1px solid #999;
-  background: #ccc;
+  background: #efefef;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
   background-clip: padding-box;
-  box-shadow: inset 0 10px 10px -10px rgba(0, 0, 0, 0.35);
   overflow: hidden;
 }
 
