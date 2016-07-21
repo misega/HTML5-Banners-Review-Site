@@ -48,13 +48,13 @@ body {
     min-height: 100%;
     outline: 1px solid rgba(0, 0, 0, 0);
     transform: translateZ(0) translateX(0) rotateY(0deg);
-    background: #7f8083 url('../img/bkgd.png') repeat top center;
+    background: #7f8083;
 }
 
 .content-container {
     margin: 0 auto;
     padding: 20px 20px 100px;
-    max-width: 1040px;
+    max-width: 1200px;
     text-align: center;
 
     @include media('<768px') {
@@ -118,4 +118,3 @@ a {
 .hide {
     display: none;
 }
-

@@ -433,13 +433,13 @@ body {
   outline: 1px solid transparent;
   -webkit-transform: translateZ(0) translateX(0) rotateY(0deg);
           transform: translateZ(0) translateX(0) rotateY(0deg);
-  background: #7f8083 url("../img/bkgd.png") repeat top center;
+  background: #7f8083;
 }
 
 .content-container {
   margin: 0 auto;
   padding: 20px 20px 100px;
-  max-width: 1040px;
+  max-width: 1200px;
   text-align: center;
 }
 
@@ -533,10 +533,9 @@ a:hover {
 .site-header .logo h3 {
   margin: 15px 0;
   font-size: 1.35em;
-  font-weight: 700;
+  font-weight: 500;
   line-height: 1.25;
   color: #fff;
-  text-shadow: 1px 1px 0 rgba(33, 33, 33, 0.5);
 }
 
 .site-header .logo-broco {
@@ -758,7 +757,7 @@ a:hover {
   position: relative;
   margin-left: auto;
   margin-right: auto;
-  max-width: 1024px;
+  max-width: 1200px;
   text-align: center;
   white-space: nowrap;
   border-bottom: 5px solid #aaa;
@@ -833,7 +832,7 @@ a:hover {
   overflow: hidden;
   white-space: nowrap;
   height: 4px;
-  background-color: black;
+  background-color: #fff;
   width: 100%;
   position: absolute;
   top: 50%;
@@ -848,7 +847,7 @@ a:hover {
   position: absolute;
   top: 0;
   height: 0;
-  border-bottom: 4px solid black;
+  border-bottom: 4px solid #fff;
   width: 100%;
   left: 0;
   right: 0;
@@ -868,15 +867,14 @@ a:hover {
   position: relative;
   margin-left: auto;
   margin-right: auto;
-  padding: 30px;
-  max-width: 1064px;
-  font-family: 'Open Sans Condensed', sans-serif;
+  padding: 5% 2%;
+  max-width: 1200px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   border-top: 1px solid #999;
-  background: #ccc;
+  background: #efefef;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
   background-clip: padding-box;
-  box-shadow: inset 0 10px 10px -10px rgba(0, 0, 0, 0.35);
   overflow: hidden;
 }
 
@@ -918,9 +916,6 @@ html.touch .banner {
 
 .ad-container {
   margin: 0 auto;
-  background: #000;
-  -webkit-transition: width 0.25s cubic-bezier(0.77, 0, 0.175, 1), height 0.5s cubic-bezier(0.77, 0, 0.175, 1);
-  transition: width 0.25s cubic-bezier(0.77, 0, 0.175, 1), height 0.5s cubic-bezier(0.77, 0, 0.175, 1);
 }
 
 .ad-container iframe {
@@ -968,6 +963,7 @@ html.touch .banner {
 }
 
 .btn-reload-banner {
+  color: #fff;
   padding: 10px 20px;
   background: #aaa;
   border: none;
@@ -976,14 +972,13 @@ html.touch .banner {
 }
 
 .btn-reload-banner:active {
-  background-color: #b7b7b7;
-  background-image: -webkit-linear-gradient(rgba(0, 0, 0, 0.1), transparent);
-  background-image: linear-gradient(rgba(0, 0, 0, 0.1), transparent);
+  outline: none;
+  background-color: #9d9c9c;
   box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.2), inset 0 1px 2px rgba(0, 0, 0, 0.2), 0 1px rgba(255, 255, 255, 0.2);
 }
 
 .btn-reload-banner:hover {
-  background: #b7b7b7;
+  background: #9d9c9c;
 }
 
 abbr {
