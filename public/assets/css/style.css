@@ -832,7 +832,7 @@ a:hover {
   overflow: hidden;
   white-space: nowrap;
   height: 4px;
-  background-color: black;
+  background-color: #fff;
   width: 100%;
   position: absolute;
   top: 50%;
@@ -847,7 +847,7 @@ a:hover {
   position: absolute;
   top: 0;
   height: 0;
-  border-bottom: 4px solid black;
+  border-bottom: 4px solid #fff;
   width: 100%;
   left: 0;
   right: 0;
