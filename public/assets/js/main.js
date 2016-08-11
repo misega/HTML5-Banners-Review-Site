@@ -838,7 +838,7 @@ jQuery.extend(jQuery.easing,
             return !!(Number($ad_container.width()) === Number(currentBanner.width) && Number($ad_container.height()) === Number(currentBanner.height));
         };
 
-        var cacheBuster = function(img) {
+        var cacheBuster = function() {
             return '?cache=' + Date.now();
         };
 
@@ -857,17 +857,11 @@ jQuery.extend(jQuery.easing,
                 modified: _tab.data('modified')
             };
             // remove existing banner
-            $ad_container.children().fadeOut('fast', function() {
-                $file_meta.fadeOut(350);
+            $ad_container.find('iframe').attr('src', 'about:blank');
 
-                // if banners are same size, change to new banner
-                if (isBannerDimensionsEqual()) {
-                    changeBanner();
-                }
-                // trigger banner container resize; change banner
-                else {
-                    $ad_container.css({'width': currentBanner.width, 'height': currentBanner.height}).onCSSTransitionEnd(changeBanner);
-                }
+            setTimeout(function() {
+                $file_meta.fadeOut(100);
+                changeBanner();
             });
         }
 
@@ -881,16 +875,17 @@ jQuery.extend(jQuery.easing,
         }
 
         function displayIframeBanner() {
-            $ad_container.find('iframe').attr({
-                'src': currentBanner.file + '/index.html' + cacheBuster(currentBanner.file),
+            $ad_container.css({
                 'width': currentBanner.width,
                 'height': currentBanner.height
-            }).delay(250).fadeIn(350);
+            }).find('iframe').attr({
+                'src': currentBanner.file + '/index.html' + cacheBuster(currentBanner.file)
+            });
         }
 
         function displayImageBanner() {
             // $ad_container.html($('<img>', {
-            //     'src': currentBanner.file + cacheBuster(currentBanner.file),
+            //     'src': currentBanner.file + cacheBuster(),
             //     'width': currentBanner.width,
             //     'height': currentBanner.height
             // }).hide().fadeIn(350));
