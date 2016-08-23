@@ -862,7 +862,7 @@ jQuery.extend(jQuery.easing,
             setTimeout(function() {
                 $file_meta.fadeOut(100);
                 changeBanner();
-            });
+            }, 100);
         }
 
         function changeBanner() {
