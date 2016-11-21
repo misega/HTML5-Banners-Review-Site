@@ -830,7 +830,13 @@ jQuery.extend(jQuery.easing,
     ==================================================================================================== */
     app.banner = (function() {
         var index = null;
-        var meta_tpl = '<small><em>FILESIZE:</em></small> <strong>{size}</strong> | <small><em>MODIFIED:</em></small> <strong><abbr data-tooltip="{date-formatted}">{date}</abbr></strong>';
+        var meta_tpl = [
+            '<small><em>FILESIZE:</em></small> ',
+            '<strong>{size}</strong> | ',
+            '<small><em>MODIFIED:</em></small> ',
+            '<strong><abbr data-tooltip="{date-formatted}">{date}</abbr></strong>',
+            '<br><a href="{zipfile}" class="btn-download"><strong>Download Banner</strong></a>'
+        ].join('');
 
         /* Helper Functions
         --------------------------------------------------------------------------- */
@@ -854,7 +860,8 @@ jQuery.extend(jQuery.easing,
                 width: dimensions[0],
                 height: dimensions[1],
                 filesize: _tab.data('filesize'),
-                modified: _tab.data('modified')
+                modified: _tab.data('modified'),
+                zipfile: _tab.data('zipfile')
             };
             // remove existing banner
             $ad_container.find('iframe').attr('src', 'about:blank');
@@ -866,10 +873,7 @@ jQuery.extend(jQuery.easing,
         }
 
         function changeBanner() {
-            switch (currentBanner.type) {
-                case 'iframe': displayIframeBanner(); break;
-                default: displayImageBanner(); break;
-            }
+            displayIframeBanner();
             displayFileMeta();
             app.$win.trigger('resize');
         }
@@ -883,20 +887,14 @@ jQuery.extend(jQuery.easing,
             });
         }
 
-        function displayImageBanner() {
-            // $ad_container.html($('<img>', {
-            //     'src': currentBanner.file + cacheBuster(),
-            //     'width': currentBanner.width,
-            //     'height': currentBanner.height
-            // }).hide().fadeIn(350));
-        }
-
         function displayFileMeta() {
             $file_meta.html(meta_tpl.supplant({
                 'size': app.readable_byte(currentBanner.filesize),
                 'date': new Date(currentBanner.modified).toRelativeTime(),
-                'date-formatted': new Date(currentBanner.modified).formatted()
+                'date-formatted': new Date(currentBanner.modified).formatted(),
+                'zipfile': currentBanner.zipfile
             })).hide().fadeIn(350);
+            if (currentBanner.zipfile) { $file_meta.find('.btn-download').css('display', 'inline-block'); }
         }
 
         /* Public Functions

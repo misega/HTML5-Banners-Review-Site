@@ -949,9 +949,7 @@ html.touch .banner {
 }
 
 .file-meta {
-  margin-bottom: 20px;
-  padding: 20px 0;
-  height: 20px;
+  padding: 20px 0 10px;
   font-size: 12px;
   line-height: 1;
 }
@@ -965,6 +963,20 @@ html.touch .banner {
   display: inline-block;
   vertical-align: middle;
   padding-right: 4px;
+}
+
+.file-meta .btn-download {
+  display: none;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  padding-left: 24px;
+  font-size: 1.2em;
+  background: url(../img/ico-download-file.png) no-repeat left center;
+}
+
+.file-meta .btn-download small {
+  top: 0;
+  padding-left: 4px;
 }
 
 .btn-reload-banner {
@@ -992,24 +1004,13 @@ abbr {
   border-bottom-color: #555;
 }
 
-abbr:after {
-  content: '';
+abbr:before, abbr:after {
   display: none;
   position: absolute;
-  z-index: 5;
-  top: -8px;
-  left: 25%;
-  width: 0;
-  height: 0;
-  border-top: 8px solid #aaa;
-  border-left: 8px solid transparent;
-  border-right: 8px solid transparent;
 }
 
 abbr:before {
   content: attr(data-tooltip);
-  display: none;
-  position: absolute;
   z-index: 4;
   top: -32px;
   left: 0;
@@ -1021,6 +1022,18 @@ abbr:before {
   background: #aaa;
   border-radius: 3px;
   box-shadow: 0 0 3px -1px rgba(0, 0, 0, 0.5);
+}
+
+abbr:after {
+  content: '';
+  z-index: 5;
+  top: -8px;
+  left: 25%;
+  width: 0;
+  height: 0;
+  border-top: 8px solid #aaa;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
 }
 
 abbr:hover:before, abbr:hover:after {
