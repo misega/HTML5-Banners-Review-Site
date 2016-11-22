@@ -73,12 +73,12 @@
 
         function displayFileMeta() {
             $file_meta.html(meta_tpl.supplant({
-                'size': app.readable_byte(currentBanner.filesize),
+                'size': currentBanner.filesize,
                 'date': new Date(currentBanner.modified).toRelativeTime(),
                 'date-formatted': new Date(currentBanner.modified).formatted(),
                 'zipfile': currentBanner.zipfile
             })).hide().fadeIn(350);
-            if (currentBanner.zipfile) { $file_meta.find('.btn-download').css('display', 'inline-block'); }
+            if (!/{{\w+}}/.test(currentBanner.zipfile)) { $file_meta.find('.btn-download').css('display', 'inline-block'); }
         }
 
         /* Public Functions
