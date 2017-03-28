@@ -274,7 +274,7 @@
     overflow-x: auto;
 
     html.touch & {
-        overflow-x: scroll;
+        overflow-x: auto;
         -webkit-overflow-scrolling: touch;
     }
 }
